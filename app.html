@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar">
+    <h2>BTX</h2>
+    <button onclick="show('home')">Dashboard</button>
+    <button onclick="show('photo')">Foto</button>
+  </aside>
+  <main class="main">
+    <section id="home">
+      <h1>Painel Tecnológico</h1>
+      <div class="card">Sistema offline pronto</div>
+    </section>
+    <section id="photo" style="display:none">
+      <h1>Foto do Paciente</h1>
+      <input type="file" id="imgInput" accept="image/*">
+      <br><br>
+      <img id="preview" width="250">
+    </section>
+  </main>
+</div>
+<script>
+function show(id){
+  document.getElementById('home').style.display='none';
+  document.getElementById('photo').style.display='none';
+  document.getElementById(id).style.display='block';
+}
+document.getElementById('imgInput').addEventListener('change',function(e){
+  const file=e.target.files[0];
+  const reader=new FileReader();
+  reader.onload=function(){
+    document.getElementById('preview').src=reader.result;
+    localStorage.setItem('photo',reader.result);
+  }
+  reader.readAsDataURL(file);
+});
+window.onload=function(){
+  const saved=localStorage.getItem('photo');
+  if(saved){document.getElementById('preview').src=saved;}
+}
+</script>
+</body>
+</html>
